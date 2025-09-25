@@ -73,17 +73,18 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8000
-          initialDelaySeconds: 90
-          periodSeconds: 30
-          timeoutSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8000
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          timeoutSeconds: 5
+        #### TEMPORARILY
+        #livenessProbe:
+        #  httpGet:
+        #    path: /
+        #   port: 8000
+        #  initialDelaySeconds: 90
+        #  periodSeconds: 30
+        #  timeoutSeconds: 10
+        #readinessProbe:
+        #  httpGet:
+        #    path: /
+        #    port: 8000
+        # initialDelaySeconds: 60
+        #  periodSeconds: 10
+        #  timeoutSeconds: 5
