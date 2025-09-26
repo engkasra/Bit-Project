@@ -27,9 +27,10 @@ spec:
           echo "External PostgreSQL is ready!"
       containers:
       - name: django
-        image: engksa75/test-bit:v1
+        image: engksa75/test-bit:latest
         ports:
         - containerPort: 8000
+        - containerPort: 8001
         env:
         - name: DATABASE_NAME
           valueFrom:

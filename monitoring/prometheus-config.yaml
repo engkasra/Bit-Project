@@ -19,5 +19,6 @@ data:
       kubernetes_sd_configs:
       - role: node
     - job_name: 'django-app'
+      metrics_path: /metrics
       static_configs:
-      - targets: ['django-service.crypto-exchange:80']
+      - targets: ['django-service.crypto-exchange:8001']
