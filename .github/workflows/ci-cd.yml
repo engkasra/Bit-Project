@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  DOCKER_IMAGE: engksa75/test-bit:v1
+  DOCKER_IMAGE: engksa75/test-bit
 
 jobs:
   build-and-deploy:
@@ -32,7 +32,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
-        context: .
+        context: ./Exchange
         push: true
         tags: ${{ env.DOCKER_IMAGE }}:latest
 
