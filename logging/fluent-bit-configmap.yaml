@@ -39,8 +39,8 @@ data:
         Port            9200
         HTTP_User       elastic
         HTTP_Passwd     elastic123
-        Logstash_Format On
-        Logstash_Prefix fluentbit-k8s
+        Index           fluentbit-k8s
+        Suppress_Type_Name On
         Retry_Limit     False
         tls             Off
         tls.verify      Off
