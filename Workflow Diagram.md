@@ -1,13 +1,3 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
-# please prepare description to could give prompt for generating diagram.
-
-i want all details with low-level and high-level design, with IP and port for each services and integration between them. even inside cluster with any objects or crd.
-
-Here's a comprehensive description for generating a detailed architecture diagram of your Crypto Exchange infrastructure:
-
-***
-
 # Crypto Exchange Infrastructure Architecture Diagram Specification
 
 ## Overview
