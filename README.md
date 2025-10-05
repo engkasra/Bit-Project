@@ -5,6 +5,9 @@
 ### Overview
 The Crypto Exchange (BitPin) project delivers a Django-based web application for digital asset management with a modern, scalable cloud-native architecture. The project utilizes Docker for containerization, Kubernetes for orchestration, continuous integration and delivery (CI/CD) via GitHub Actions, and robust monitoring through Prometheus and Grafana.
 
+![BitPin Architecture Diagram](diagram-export.jpg)
+
+
 **Key Solutions:**
 - **Django App** containerized with Docker.
 - **External PostgreSQL DB** running on a dedicated worker node.
