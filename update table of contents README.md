@@ -1,20 +1,5 @@
 # BitPin Project Documentation
 
-```mermaid
-graph LR
-    User["User's Browser"]
-    Ingress["NGINX Ingress Controller"]
-    DjangoApp["Django Application"]
-    Postgres["PostgreSQL (External, on-premise)"]
-    Prometheus["Prometheus"]
-    Grafana["Grafana"]
-
-    User --> Ingress
-    Ingress --> DjangoApp
-    DjangoApp --> Postgres
-    DjangoApp --> Prometheus
-    Prometheus --> Grafana
-```
 
 ## Proposal
 ### Overview
@@ -26,6 +11,28 @@ The Crypto Exchange (BitPin) project delivers a Django-based web application for
 - **Kubernetes** cluster with Calico networking and Ingress-NGINX for traffic routing.
 - **CI/CD** automated pipeline with GitHub Actions, Docker Hub, and `kubectl` deploy.
 - **Monitoring** includes Prometheus for metrics collection and Grafana for visualization.
+
+## Table of Contents
+
+- [Execution Instructions & Architecture](#execution-instructions--architecture)
+  - [1. Preparation](#1-preparation)
+    - [a. Database Server (External)](#a-database-server-external)
+    - [b. Docker Image Build](#b-docker-image-build)
+    - [c. Kubernetes Cluster Setup](#c-kubernetes-cluster-setup)
+  - [2. Application Deployment](#2-application-deployment)
+    - [a. Kubernetes Manifests](#a-kubernetes-manifests)
+    - [b. Secrets and Configuration](#b-secrets-and-configuration)
+    - [c. Ingress & DNS](#c-ingress--dns)
+    - [d. Monitoring](#d-monitoring)
+  - [3. CI/CD Pipeline](#3-cicd-pipeline)
+  - [4. Step-by-Step Operations](#4-step-by-step-operations)
+    - [a. Local Development](#a-local-development)
+    - [b. GitOps in Kubernetes](#b-gitops-in-kubernetes)
+    - [c. Monitoring & Observability](#c-monitoring--observability)
+    - [d. Access](#d-access)
+- [Best Practices & Recommendations](#best-practices--recommendations)
+- [What's Next?](#whats-next)
+  - [Setting Up ELK Stack for Log Management](#setting-up-elk-stack-for-log-management)
 
 ---
 
