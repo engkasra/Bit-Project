@@ -14,6 +14,7 @@ The Crypto Exchange (BitPin) project delivers a Django-based web application for
 - **Kubernetes** cluster with Calico networking and Ingress-NGINX for traffic routing.
 - **CI/CD** automated pipeline with GitHub Actions, Docker Hub, and `kubectl` deploy.
 - **Monitoring** includes Prometheus for metrics collection and Grafana for visualization.
+- **Logging** Elasticsearch has been setup as single node with Fluentbit to gathering and collect logs from pods.
 
 ## Table of Contents
 
@@ -35,7 +36,6 @@ The Crypto Exchange (BitPin) project delivers a Django-based web application for
     - [d. Access](#d-access)
 - [Best Practices & Recommendations](#best-practices--recommendations)
 - [What's Next?](#whats-next)
-  - [Setting Up ELK Stack for Log Management](#setting-up-elk-stack-for-log-management)
 
 ---
 
@@ -45,6 +45,7 @@ The Crypto Exchange (BitPin) project delivers a Django-based web application for
 
 #### a. Database Server (External)
 - Install PostgreSQL on a worker node.
+- Harden database access via UFW/firewall rules restricting to master node, ELK server, and worker node IPs.
 - Create required DB, user, password, and grant privileges.
 - Configure `listen_addresses` and `pg_hba.conf` for secure remote access.
 
@@ -109,7 +110,41 @@ static_configs:
 
 ---
 
-### 4. Step-by-Step Operations
+### 4. Logging & ELK Stack
+
+- Elk Stack Setup:
+1. Elasticsearch deployed on dedicated server `91.107.185.11`, listening on port `9200`.
+2. Kibana installed alongside Elasticsearch on the same server, exposed on port `5601`.
+3. Elasticsearch secured with username/password authentication `(e.g. user: elastic).`
+4. Single-node Elasticsearch configured using `discovery.type: single-node` for simplicity and stability.
+5. Firewall restricts access to Elasticsearch and Kibana ports to trusted IPs.
+
+- Fluent Bit Setup in Kubernetes
+1. Deploy Fluent Bit as a DaemonSet in Kubernetes logging namespace to run on all nodes.
+2. Fluent Bit configuration inputs:
+   - Tail logs from `/var/log/containers/*.log`.
+   - Kubernetes metadata enrichment filter for logs.
+3. Output configuration:
+    - Sends logs to Elasticsearch on `91.107.185.11:9200`.
+    - Uses `Index fluentbit-k8s` (without deprecated `_type` field).
+    - Secure authentication with `elastic` user credentials.
+    - TLS disabled for internal secure network segments.
+4. Tips & Best Practices for ELK and Fluent Bit:
+   - Avoid legacy configs: Ensure Fluent Bit does not use `Logstash_Format` On or `es_type` these cause Elasticsearch 8.x rejections.
+   - Index naming: Use a simple static index name or date suffix for organized log storage.
+   - Resource limits: Constrain Fluent Bit with reasonable CPU and memory limits in the DaemonSet.
+   - RBAC: Grant Fluent Bit minimal required permissions to read pod and namespace info.
+   - Secure credentials: Inject passwords via Kubernetes Secrets, never hardcoded in ConfigMaps.
+   - Scaling: Fluent Bit DaemonSet ensures log collection from all nodes automatically.
+  
+- Verifying Logs in Kibana:
+1. Create a data view (index pattern) `fluentbit-k8s*` in Kibana.
+2. Use Discover page with filters for namespaces, pods or labels (e.g. `kubernetes.namespace_name: "crypto-exchange"`).
+3. Build dashboards and saved searches to monitor app-specific logs and error trends.
+   
+---
+
+### 5. Step-by-Step Operations
 
 #### a. Local Development
 - Test locally with Docker Compose if needed.
@@ -130,6 +165,12 @@ static_configs:
 - Application is available at `http://crypto-exchange.local:<nodePort>`.
 - Metrics are available to Prometheus for scraping at `/metrics`.
 
+#### e. Logging Access and Analysis
+- View application logs centrally via Kibana.
+- Use tailored filters and saved searches.
+- Troubleshoot errors and observe performance trends.
+
+
 ---
 
 ## Best Practices & Recommendations
@@ -139,20 +180,6 @@ static_configs:
 - Scale deployments with Kubernetes `replicas`.
 - Restrict access/ingress rules as needed for security.
 - Monitor logs and probe failures to catch issues early.
-
----
-
-## What’s Next?
-
-### Setting Up ELK Stack for Log Management
-
-**Steps:**
-
-1. **Install Elasticsearch** on a dedicated node for scalable log storage and search capabilities.
-2. **Deploy Logstash or Fluent Bit** on Kubernetes cluster nodes to collect and forward logs from pods and containers to Elasticsearch.
-3. **Deploy Kibana** to visualize and explore logs efficiently.
-4. **Configure Fluent Bit** as a lightweight log forwarder inside your Kubernetes cluster.
-5. **Integrate ELK with existing monitoring** solutions for a comprehensive observability platform.
 
 ---
 
