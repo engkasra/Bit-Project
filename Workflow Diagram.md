@@ -382,5 +382,3 @@ Create a comprehensive multi-layer architecture diagram showing the complete Cry
 
 ***
 
-Use this specification to generate a comprehensive, production-grade architecture diagram showing all components, connections, ports, IPs, and data flows for the complete Crypto Exchange infrastructure.
-
