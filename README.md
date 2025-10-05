@@ -34,6 +34,7 @@ The Crypto Exchange (BitPin) project delivers a Django-based web application for
     - [b. GitOps in Kubernetes](#b-gitops-in-kubernetes)
     - [c. Monitoring & Observability](#c-monitoring--observability)
     - [d. Access](#d-access)
+  - [5. Logging & ELK Stack](#5-logging-&-elk-stack)
 - [Best Practices & Recommendations](#best-practices--recommendations)
 - [What's Next?](#whats-next)
 
